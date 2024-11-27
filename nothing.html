@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Camera Capture</title>
+  <style>
+    #videoElement {
+      width: 400px;
+      height: 300px;
+      background-color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <video id="videoElement"></video>
+    <button onclick="captureImage()">Capture</button>
+  </div>
+
+  <script>
+    const videoElement = document.getElementById('videoElement');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function (stream) {
+        videoElement.srcObject = stream;
+      })
+      .catch(function (error) {
+        console.error('Error accessing the camera:', error);
+      });
+
+    function captureImage() {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+      const imageDataURL = canvas.toDataURL('image/jpeg');
+
+      // Send the imageDataURL to the server using AJAX or form submission
+      // for further processing with PHP or Python.
+      console.log(imageDataURL);
+    }
+  </script>
+</body>
+</html>
